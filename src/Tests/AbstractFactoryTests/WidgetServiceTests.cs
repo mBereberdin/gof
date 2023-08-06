@@ -5,36 +5,33 @@ using FluentAssertions;
 using gof.Creational.AbstractFactory.DTOs.Motif;
 using gof.Creational.AbstractFactory.DTOs.PM;
 using gof.Creational.AbstractFactory.Implementations;
-using gof.Creational.AbstractFactory.Profiles;
-using gof.Creational.AbstractFactory.Services.Implementations;
 using gof.Creational.AbstractFactory.Services.Interfaces;
 
 using Mapster;
 
+using Microsoft.Extensions.DependencyInjection;
+
 /// <summary>
 /// Тесты для <see cref="IWidgetService"/>.
 /// </summary>
-public class WidgetServiceTests
+public class WidgetServiceTests : BaseTest
 {
-    /// <inheritdoc cref="WidgetService"/>
-    private readonly WidgetService _widgetService;
-
     /// <inheritdoc cref="WidgetServiceTests"/>
-    public WidgetServiceTests()
+    /// <param name="factory">Фабрика проекта Example.</param>
+    public WidgetServiceTests(ExampleWebApplicationFactory<Program> factory) : base(factory)
     {
-        _widgetService = new WidgetService();
-        TypeAdapterConfig.GlobalSettings.Scan(typeof(ProjectRegister).Assembly);
     }
 
     [Fact]
     public async Task MotifWidgetFactory_CreateWidget_ReturnMotifWidgetDtoSuccess()
     {
         //Arrange
-        var motifWidgetFactory = new MotifWidgetFactory();
-        var widgetService = _widgetService;
+        var motifWidgetFactory = Services.GetRequiredService<MotifWidgetFactory>();
+        var widgetService = Services.GetRequiredService<IWidgetService>();
 
         var motifScrollBar = motifWidgetFactory.CreateScrollBar();
         var motifWindow = motifWidgetFactory.CreateWindow();
+
         var motifScrollBarDto = motifScrollBar.Adapt<MotifScrollBarDto>();
         var motifWindowDto = motifWindow.Adapt<MotifWindowDto>();
 
@@ -52,11 +49,12 @@ public class WidgetServiceTests
     public async Task PmWidgetFactory_CreateWidget_ReturnPmWidgetDtoSuccess()
     {
         //Arrange
-        var pmfWidgetFactory = new PmWidgetFactory();
-        var widgetService = _widgetService;
+        var pmfWidgetFactory = Services.GetRequiredService<PmWidgetFactory>();
+        var widgetService = Services.GetRequiredService<IWidgetService>();
 
         var pmScrollBar = pmfWidgetFactory.CreateScrollBar();
         var pmWindow = pmfWidgetFactory.CreateWindow();
+
         var pmScrollBarDto = pmScrollBar.Adapt<PmScrollBarDto>();
         var pmWindowDto = pmWindow.Adapt<PmWindowDto>();
 

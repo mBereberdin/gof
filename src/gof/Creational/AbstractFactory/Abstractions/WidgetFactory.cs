@@ -11,7 +11,6 @@ public class WidgetFactory
     /// Создать полосу прокрутки.
     /// </summary>
     /// <returns>ScrollBar - созданную полосу прокрутки.</returns>
-    /// <exception cref="NotImplementedException">Когда метод не реализован.</exception>
     public virtual ScrollBar CreateScrollBar()
     {
         return new ScrollBar("yellow", "short");
@@ -21,7 +20,6 @@ public class WidgetFactory
     /// Создать окно.
     /// </summary>
     /// <returns>Window - созданное окно.</returns>
-    /// <exception cref="NotImplementedException">Когда метод не реализован.</exception>
     public virtual Window CreateWindow()
     {
         return new Window("yellow", "short");

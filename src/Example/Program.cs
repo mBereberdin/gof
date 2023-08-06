@@ -40,3 +40,13 @@ if (app.Environment.IsDevelopment())
 app.MapControllers();
 
 app.Run();
+
+// Необходимо для интеграционных тестов.
+
+/// <summary>
+/// Программа.
+/// </summary>
+/// <remarks>Входная точка приложения для конфигурирования и запуска системы.</remarks>
+public partial class Program
+{
+}

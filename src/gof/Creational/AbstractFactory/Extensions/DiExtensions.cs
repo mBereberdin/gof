@@ -1,8 +1,7 @@
 namespace gof.Creational.AbstractFactory.Extensions;
 
-using System.Reflection;
-
 using gof.Creational.AbstractFactory.Implementations;
+using gof.Creational.AbstractFactory.Profiles;
 using gof.Creational.AbstractFactory.Services.Implementations;
 using gof.Creational.AbstractFactory.Services.Interfaces;
 
@@ -22,13 +21,7 @@ public static class DiExtensions
     public static void AddAbstractFactory(this IServiceCollection services)
     {
         RegisterFactoriesServices(services);
-
-        var assembly = Assembly.GetEntryAssembly() ?? throw new InvalidOperationException();
-        TypeAdapterConfig.GlobalSettings.Scan(assembly);
-
-
-        services.AddTransient<MotifWidgetFactory>();
-        services.AddTransient<PmWidgetFactory>();
+        TypeAdapterConfig.GlobalSettings.Scan(typeof(ProjectRegister).Assembly);
     }
 
     /// <summary>
@@ -38,5 +31,7 @@ public static class DiExtensions
     private static void RegisterFactoriesServices(IServiceCollection services)
     {
         services.AddTransient<IWidgetService, WidgetService>();
+        services.AddTransient<MotifWidgetFactory>();
+        services.AddTransient<PmWidgetFactory>();
     }
 }
