@@ -1,5 +1,7 @@
 using System.Reflection;
 
+using gof.Creational.AbstractFactory.Extensions;
+
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +18,8 @@ builder.Services.AddSwaggerGen(options =>
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
+
+builder.Services.AddAbstractFactory();
 
 builder.Services.AddControllers();
 
@@ -36,3 +40,13 @@ if (app.Environment.IsDevelopment())
 app.MapControllers();
 
 app.Run();
+
+// Необходимо для интеграционных тестов.
+
+/// <summary>
+/// Программа.
+/// </summary>
+/// <remarks>Входная точка приложения для конфигурирования и запуска системы.</remarks>
+public partial class Program
+{
+}

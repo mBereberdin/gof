@@ -19,5 +19,8 @@
     <ItemGroup>
       <None Include="wwwroot\swagger-ui\SwaggerDark.css" />
     </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\gof\gof.csproj" />
+    </ItemGroup>
 
 </Project>
