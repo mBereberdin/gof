@@ -23,7 +23,7 @@ jobs:
       working-directory: ./src
 
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --configuration Release --no-restore
       working-directory: ./src
 
   build-ubuntu:
@@ -41,7 +41,7 @@ jobs:
       working-directory: ./src
   
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --configuration Release --no-restore
       working-directory: ./src
 
   test-ubuntu:
@@ -59,5 +59,15 @@ jobs:
       working-directory: ./src/Tests
 
     - name: Test
-      run: dotnet test --no-restore
+      run: dotnet test --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
       working-directory: ./src/Tests
+
+    - name: Code Coverage Report
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      with:
+        filename: src/Tests/coverage/**/coverage.cobertura.xml
+        format: text
+        hide_branch_rate: true
+        hide_complexity: true
+        indicators: true
+        output: console
