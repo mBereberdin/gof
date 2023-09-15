@@ -22,5 +22,10 @@
     <ItemGroup>
       <ProjectReference Include="..\gof\gof.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <Content Update="wwwroot\swagger-ui\SwaggerDark.css">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
 
 </Project>

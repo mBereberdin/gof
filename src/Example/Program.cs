@@ -1,5 +1,7 @@
 using System.Reflection;
 
+using Example.Extensions;
+
 using gof.Creational.AbstractFactory.Extensions;
 
 using Microsoft.OpenApi.Models;
@@ -16,7 +18,8 @@ builder.Services.AddSwaggerGen(options =>
     });
 
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory,
+        xmlFilename));
 });
 
 builder.Services.AddAbstractFactory();
@@ -24,17 +27,13 @@ builder.Services.AddAbstractFactory();
 builder.Services.AddControllers();
 
 var app = builder.Build();
+var isUseSwagger = app.Configuration.GetValue<bool>("IsUseSwagger");
 
-if (app.Environment.IsDevelopment())
+app.UseStaticFiles();
+
+if (isUseSwagger)
 {
-    app.UseStaticFiles();
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-        options.InjectStylesheet("/swagger-ui/SwaggerDark.css");
-        options.RoutePrefix = string.Empty;
-    });
+    app.AddAndConfigureSwagger();
 }
 
 app.MapControllers();
@@ -44,7 +43,7 @@ app.Run();
 // Необходимо для интеграционных тестов.
 
 /// <summary>
-/// Программа.
+///  Программа.
 /// </summary>
 /// <remarks>Входная точка приложения для конфигурирования и запуска системы.</remarks>
 public partial class Program
