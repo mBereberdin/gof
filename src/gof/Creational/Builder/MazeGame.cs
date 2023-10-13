@@ -21,8 +21,8 @@ public class MazeGame
         builder.BuildRoom(2);
         builder.BuildDoor(1, 2);
 
-        var buildedMaze = builder.GetMaze();
+        var builtMaze = builder.GetMaze();
 
-        return buildedMaze;
+        return builtMaze;
     }
 }
