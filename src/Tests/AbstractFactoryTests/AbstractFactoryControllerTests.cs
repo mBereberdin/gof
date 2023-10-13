@@ -3,16 +3,15 @@ namespace Tests.AbstractFactoryTests;
 using Example.Controllers;
 
 /// <summary>
-/// Тесты для <see cref="AbstractFactoryController"/>
+/// Тесты для <see cref="AbstractFactoryController"/>.
 /// </summary>
 public class AbstractFactoryControllerTests : BaseTest
 {
     /// <inheritdoc cref="AbstractFactoryControllerTests"/>
-    /// <param name="factory">Фабрика проекта Example</param>
+    /// <param name="factory">Фабрика проекта Example.</param>
     public AbstractFactoryControllerTests(ExampleWebApplicationFactory<Program> factory) : base(factory)
     {
     }
-
 
     [Fact]
     public async Task GetMotifWidget_Success()
