@@ -3,7 +3,6 @@ namespace Example.Controllers;
 using gof.Creational.Builder;
 using gof.Creational.Builder.Builders;
 using gof.Creational.Builder.DTOs;
-using gof.Creational.Builder.Models;
 
 using Mapster;
 
@@ -40,11 +39,15 @@ public class BuilderController : ControllerBase
     /// <summary>
     /// Получить стандартный лабиринт.
     /// </summary>
+    /// <param name="cancellationToken">Токен отмены выполнения операции.</param>
     /// <returns>Задача, результатом которой является дто стандартного лабиринта.</returns>
+    /// <response code="200">Когда лабиринт был успешно получен.</response>
     [HttpGet("standard")]
-    public async Task<IActionResult> GetStandardMaze()
+    public async Task<IActionResult> GetStandardMazeAsync(CancellationToken cancellationToken = default)
     {
-        var getMazeTask = Task.Run(() => _mazeGame.CreateMaze(_standardMazeBuilder));
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var getMazeTask = Task.Run(() => _mazeGame.CreateMaze(_standardMazeBuilder), cancellationToken);
 
         var maze = await getMazeTask;
         var mazeDto = maze.Adapt<MazeDto>();
@@ -55,11 +58,15 @@ public class BuilderController : ControllerBase
     /// <summary>
     /// Получить подсчитанные значения лабиринта со счетчиком.
     /// </summary>
+    /// <param name="cancellationToken">Токен отмены выполнения операции.</param>
     /// <returns>Задача, результатом которой является дто подсчетов лабиринта.</returns>
+    /// <response code="200">Когда подсчеты лабиринта были успешно получены.</response>
     [HttpGet("counting")]
-    public async Task<IActionResult> GetCountingMaze()
+    public async Task<IActionResult> GetCountingMazeAsync(CancellationToken cancellationToken = default)
     {
-        await Task.Run(() => _mazeGame.CreateMaze(_countingMazeBuilder));
+        cancellationToken.ThrowIfCancellationRequested();
+
+        await Task.Run(() => _mazeGame.CreateMaze(_countingMazeBuilder), cancellationToken);
 
         var countsDto = _countingMazeBuilder.GetCountsDto();
 
