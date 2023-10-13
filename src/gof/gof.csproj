@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <Folder Include="Behavioral\" />
+      <Folder Include="Creational\Builder\img\" />
       <Folder Include="Structural\" />
     </ItemGroup>
 

@@ -1,6 +1,7 @@
 using System.Reflection;
 
 using gof.Creational.AbstractFactory.Extensions;
+using gof.Creational.Builder.Extensions;
 
 using Microsoft.OpenApi.Models;
 
@@ -19,7 +20,10 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
+// Подключение абстрактной фабрики.
 builder.Services.AddAbstractFactory();
+// Подключения строителя.
+builder.Services.AddBuilders();
 
 builder.Services.AddControllers();
 
