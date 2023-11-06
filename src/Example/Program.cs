@@ -1,24 +1,21 @@
-using System.Reflection;
+using Example.Extensions;
 
 using gof.Creational.AbstractFactory.Extensions;
 using gof.Creational.Builder.Extensions;
 
-using Microsoft.OpenApi.Models;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Version = "v1",
-        Title = "Gof example api",
-        Description = "ASP.NET Core Web API для проверки работы gof."
-    });
+using var logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
 
-    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
-});
+var isUseSwagger = builder.Configuration.GetValue<bool>("IsUseSwagger");
+if (isUseSwagger)
+{
+    builder.Services.AddSwaggerGeneration(logger);
+}
 
 // Подключение абстрактной фабрики.
 builder.Services.AddAbstractFactory();
@@ -29,26 +26,23 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+app.UseStaticFiles();
+
+if (isUseSwagger)
 {
-    app.UseStaticFiles();
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-        options.InjectStylesheet("/swagger-ui/SwaggerDark.css");
-        options.RoutePrefix = string.Empty;
-    });
+    app.AddAndConfigureSwagger(logger);
 }
 
 app.MapControllers();
+
+Log.CloseAndFlush();
 
 app.Run();
 
 // Необходимо для интеграционных тестов.
 
 /// <summary>
-/// Программа.
+///  Программа.
 /// </summary>
 /// <remarks>Входная точка приложения для конфигурирования и запуска системы.</remarks>
 public partial class Program

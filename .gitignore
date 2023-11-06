@@ -10,3 +10,7 @@ src/.vscode
 ### JetBrains IDE's ###
 .idea/*
 src/.idea/* 
+
+### Logs ###
+Logs/
+logs/
